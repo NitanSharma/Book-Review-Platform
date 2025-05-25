@@ -11,10 +11,10 @@ dotenv.config();
 
 const app = express();// Middleware
 
-// app.use(cors({
-//     origin: 'http://localhost:5173', // your React app
-//     credentials: true // 👈 this allows cookies to be sent
-// }));// this is to allow cross origin requests 
+app.use(cors({
+    origin: 'http://localhost:5173', // your React app
+    credentials: true // 👈 this allows cookies to be sent
+}));// this is to allow cross origin requests 
 
 
 app.use(express.json())// this is to parse json data
