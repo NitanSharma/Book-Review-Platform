@@ -43,7 +43,7 @@ const BookDetails = () => {
   return (
     <>
     <Navbar/>
-    <div className="flex flex-col md:flex-row items-center md:items-start justify-center min-h-screen bg-gray-50 p-6 bg-red-500">
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center min-h-screen bg-gray-50 p-6">
         <div className="md:w-1/2 w-full flex justify-center bg-white p-6">
         <img
           src={book.imageUrl}
