@@ -9,8 +9,8 @@ const getReviews = async (req, res) => {
     }
 
     const reviews = await Review.find(filter)
-      .populate('user', 'name') // optionally populate user name
-      .populate('book', 'title'); // optionally populate book title
+      .populate('user', 'name') //  populate user name
+      .populate('book', 'title'); //  populate book title
 
     res.status(200).json(reviews);
   } catch (error) {
@@ -29,7 +29,6 @@ const createReview = async (req, res) => {
       rating,
       comment,
     });
-
     const savedReview = await newReview.save();
     res.status(201).json(savedReview);
   } catch (error) {

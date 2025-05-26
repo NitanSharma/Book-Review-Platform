@@ -1,27 +1,27 @@
 const {validationResult} = require('express-validator');
 const Book = require('../models/book.model');
 
-// Get all books
+// GET /books - Retrieve all books (without pagination
 module.exports.getAllBooks = async (req, res) => {
   try {
     const books = await Book.find();
-    res.json(books);
+    res.status(200).json(books);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Get a book by ID
+// GET /books/:id - Retrieve a specific book
 module.exports.getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
-    res.json(book);
+    res.status(200).json(book);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Add a new book
+// POST /books - Add a new book (admin only)
 module.exports.addBook = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
