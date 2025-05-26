@@ -4,8 +4,7 @@ const bookSchema = new mongoose.Schema(
   {
     imageUrl: {
       type: String,
-      required: false,
-      default: 'https://unsplash.com/photos/aZ_MmSmAcjg',
+      required: true,
     },
     title: {
       type: String,

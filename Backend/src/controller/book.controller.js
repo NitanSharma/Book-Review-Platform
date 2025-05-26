@@ -27,9 +27,16 @@ module.exports.addBook = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+  // Check if the user is an admin
+  
+  // console.log(req.user.isAdmin);
+  if (!req.user || !req.user.isAdmin) {
+    return res.status(403).json({ message: 'Forbidden: Admins only' });
+  }
   try {
-   const {title, author, description, genre, price, publishedDate, ratings} = req.body;
+   const {imageUrl,title, author, description, genre, price, publishedDate, ratings} = req.body;
    const book = new Book({
+    imageUrl,
     title,
     author,
     description,
@@ -44,6 +51,3 @@ module.exports.addBook = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-
-

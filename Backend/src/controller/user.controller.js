@@ -2,6 +2,7 @@ const User = require('../models/user.model.js');
 const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {validationResult} = require('express-validator');
+const {cookieOptions} = require('../config/config.js')
 
 // GET /users/:id - Retrieve user profile
 module.exports.getUserProfile = async (req, res) => {
@@ -44,8 +45,9 @@ module.exports.registerUser = async (req, res) => {
       isAdmin,
     });
     await user.save();
-    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1h'});
-    res.status(201).json({token , user});
+    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '5m'});
+    res.cookie("accessToken", token, cookieOptions)
+    res.status(201).json({message : "Register successfully"});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -66,11 +68,10 @@ module.exports.loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({message: 'Invalid email or password'});
     }
-    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1h'});
+    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '5m'});
 
-    res.cookie('token',token , {httpOnly: true} );
-
-    res.status(201).json({token , user});
+    res.cookie("accessToken", token, cookieOptions)
+    res.status(201).json({message : "Login Success" , user});
 
   } catch (err) {
     res.status(500).json({ message: err.message });

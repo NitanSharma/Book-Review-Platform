@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bookController = require('../controller/book.controller.js');
 const validatebook = require('../validators/bookValidator.js');
-// const authMiddleware = require('../middlewares/auth.middleware');
+const middleware = require('../middleware/auth.middleware.js');
 
 // GET / - Retrieve all books (with pagination)
 router.get('/', bookController.getAllBooks );
@@ -11,6 +11,6 @@ router.get('/', bookController.getAllBooks );
 router.get('/:id', bookController.getBookById);
 
 // POST / - Add a new book (admin only)
-router.post('/', validatebook ,bookController.addBook);
+router.post('/', middleware.authMiddleware ,validatebook ,bookController.addBook);
 
 module.exports = router;
