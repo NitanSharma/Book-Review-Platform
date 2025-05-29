@@ -44,23 +44,29 @@ const BookDetails = () => {
   return (
     <>
     <Navbar/>
-    <div className="bg-gray-50 h-screen m-10 flex justify-around">
-        <div className="p-4 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-2">Genre: {book.genre}</h2>
-        <img
-          src={book.imageUrl}
-          alt={book.title}
-          className="w-72 h-90 object-cover rounded-lg shadow-lg"
-        />
-     <Button/>
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
-        <h2 className="text-2xl font-semibold mb-2">Price: ${book.price}</h2>
-        <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
-        <h2 className="text-xl text-gray-700 mb-2">by {book.author}</h2>
-        <p className="text-gray-600">{book.description}</p>
-      </div>
+    <div className="h-screen bg-gray-100 p-10">
+  <div className="flex gap-8 h-full overflow-hidden">
+    {/* Left Panel (Fixed Content) */}
+    <div className="w-1/3 bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center sticky top-10 h-fit">
+      <h2 className="text-xl font-semibold text-gray-700 mb-4">Genre: {book.genre}</h2>
+      <img
+        src={book.imageUrl}
+        alt={book.title}
+        className="w-60 h-80 object-cover rounded-xl shadow-md mb-6"
+      />
+      <Button />
     </div>
+
+    {/* Right Panel (Scrollable Content) */}
+    <div className="flex-1 bg-white p-6 rounded-2xl shadow-lg overflow-y-auto max-h-full">
+      <h2 className="text-xl font-semibold text-indigo-600 mb-2">Price: ${book.price}</h2>
+      <h1 className="text-3xl font-bold text-gray-900 mb-3">{book.title}</h1>
+      <h2 className="text-lg text-gray-700 mb-4">by {book.author}</h2>
+      <p className="text-gray-600 leading-relaxed">{book.description}</p>
+    </div>
+  </div>
+</div>
+
     </>
   );
 };
