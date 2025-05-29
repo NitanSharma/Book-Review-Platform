@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import BookFilterSearchBox from "../components/BookFilterSearchBox";
 
 
+
 const Home = () => {
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
@@ -13,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/books");
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/books`);
         // Assuming the response data is an array of book objects
         setBooks(response.data);
       } catch (error) {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { UserDataContext } from "../context/UserContext"; 
+
 
 const RegisterUser = () => {
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ const RegisterUser = () => {
     }));
   };
 
+  const {user , setUser} =React.useContext(UserDataContext);
+  // console.log(user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,14 +35,20 @@ const RegisterUser = () => {
     setSuccess("");
     try {
       // Change the URL to your backend endpoint
-     const response = await axios.post('http://localhost:3000/users/register', form , {
+     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, form , {
         withCredentials: true, // Include credentials for cookie handling
       });
       setSuccess("Registration successful!");
 
       if(response.status === 201) {
+        const data = response.data;
+        // console.log(data);
+        setUser(data.user);
+        localStorage.setItem('token', data.token); // Store token in localStorage
         // console.log('Registration successful:', response.data);
-        navigate("/");
+          setTimeout(() => {
+          navigate("/");
+         }, 100); // Give React time to update context
       }
       // Reset form fields after successful registration
       setForm({
@@ -54,6 +64,10 @@ const RegisterUser = () => {
     }
     setLoading(false);
   };
+
+//   React.useEffect(() => {
+//   console.log("User updated:", user);
+// }, [user]);
 
   return (
     <>

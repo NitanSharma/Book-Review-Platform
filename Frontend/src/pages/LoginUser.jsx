@@ -1,12 +1,16 @@
 import React from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserDataContext } from '../context/UserContext';
 
 const LoginUser = () => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('Oxygen1@gmail.com');
+    const [password, setPassword] = React.useState('Oxygen1');
 
     const navigate = useNavigate();
+
+    const {user, setUser} = React.useContext(UserDataContext);
+    // console.log(user);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,13 +19,16 @@ const LoginUser = () => {
             password: password
         }
         try {
-            const response = await axios.post('http://localhost:3000/users/login',userData ,{withCredentials: true});
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,userData ,{withCredentials: true});
                
             if (response.status === 201) {   
                 //  console.log('Login successful:', response.data);
                 // Handle successful login (e.g., redirect or store token)
                 // For example, you can redirect to the home page:
-                navigate('/');
+                const data = response.data;
+                 setUser(data.user);
+                 localStorage.setItem('token',data.token);
+                 navigate('/');
             }
             setEmail('');
             setPassword('');
