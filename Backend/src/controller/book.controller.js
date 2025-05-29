@@ -1,6 +1,7 @@
 const {validationResult} = require('express-validator');
 const Book = require('../models/book.model');
 
+
 // GET /books - Retrieve all books (without pagination
 module.exports.getAllBooks = async (req, res) => {
   try {
@@ -46,7 +47,7 @@ module.exports.addBook = async (req, res) => {
     ratings,
    });
     await book.save();
-    res.json(book);
+    res.status(201).json(book);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

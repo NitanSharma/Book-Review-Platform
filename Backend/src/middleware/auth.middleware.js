@@ -3,6 +3,7 @@ const User = require('../models/user.model');
 
 module.exports.authMiddleware = async (req, res , next) =>{
     const token = req.cookies.accessToken
+    // console.log("Token in Auth Middleware:", token);
     if(!token) return res.status(401).json({message:"Unauthorized"})
  try {
         const decoded = jsonwebtoken.verify(token , process.env.JWT_SECRET);

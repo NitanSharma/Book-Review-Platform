@@ -6,12 +6,7 @@ const {cookieOptions} = require('../config/config.js')
 
 // GET /users/:id - Retrieve user profile
 module.exports.getUserProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  res.status(200).json(req.user);
 };
 
 // PUT /users/:id - Update user profile
@@ -45,9 +40,9 @@ module.exports.registerUser = async (req, res) => {
       isAdmin,
     });
     await user.save();
-    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '5m'});
+    const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1m'}); // Adjusted expiration time to 1 minute for testing
     res.cookie("accessToken", token, cookieOptions)
-    res.status(201).json({message : "Register successfully"});
+    res.status(201).json({message : "Register successfully" , user , token});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -71,9 +66,14 @@ module.exports.loginUser = async (req, res) => {
     const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '5m'});
 
     res.cookie("accessToken", token, cookieOptions)
-    res.status(201).json({message : "Login Success" , user});
+    res.status(201).json({message : "Login Success" , token , user});
 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+module.exports.logoutUser = async (req, res, next) => {
+  res.clearCookie('accessToken', { path: '/' });
+  res.status(200).json({ message: "User Logged Out" });
+}
