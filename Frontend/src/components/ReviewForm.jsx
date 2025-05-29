@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ReviewForm = () => {
+const ReviewForm = ({bookId}) => {
+  // console.log(bookId);
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    user: '',
-    book: '',
     rating: '',
     comment: 'Nothing can stop us from reading!',
   });
@@ -21,13 +20,13 @@ const ReviewForm = () => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    console.log('Submitting review:', form);
+    // console.log('Submitting review:', form);
     try {
-      const response = await axios.post('http://localhost:3000/reviews', form);
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/reviews/${bookId}`, form , {withCredentials : true});
       console.log(response);
       if(response.status === 201) {
         setMessage('Review submitted successfully!');
-        console.log(response.data);
+        // console.log(response.data);
         navigate('/'); // Redirect to books page after successful submission
       }
       
@@ -50,28 +49,7 @@ const ReviewForm = () => {
       className="max-w-md mx-auto bg-white p-6 rounded shadow space-y-4"
     >
       <h2 className="text-2xl font-bold mb-4 text-center">Submit a Review</h2>
-      <div>
-        <label className="block mb-1 font-medium">User ID</label>
-        <input
-          type="text"
-          name="userId"
-          value={form.user}
-          onChange={handleChange}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
-          required
-        />
-      </div>
-      <div>
-        <label className="block mb-1 font-medium">Book ID</label>
-        <input
-          type="text"
-          name="bookId"
-          value={form.book}
-          onChange={handleChange}
-          className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
-          required
-        />
-      </div>
+      
       <div>
         <label className="block mb-1 font-medium">Rating (1-5)</label>
         <input
