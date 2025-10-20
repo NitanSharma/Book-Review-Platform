@@ -25,6 +25,10 @@ app.use('/books', bookRoutes);
 app.use('/users', userRoutes);
 app.use('/reviews', reviewRoutes);
 
+app.get('/', (req,res) => {
+    res.send("Server is running")
+})
+
 // app.all("*", (req,res,next) => {// all other request other than route
 //     next(new ExpressError(404, "Page Not Found!"));
 // })
