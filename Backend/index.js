@@ -17,11 +17,20 @@ const app = express();// Middleware
 //     credentials: true // 👈 this allows cookies to be sent
 // }));// this is to allow cross origin requests 
 
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: "https://book-review-platform-git-main-nitins-projects-edf87744.vercel.app", 
+  credentials: true
+}));
 
 app.use(express.json())// this is to parse json data
 app.use(express.urlencoded({extended:true}))// this is to parse url encoded data
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 app.use('/books', bookRoutes);
 app.use('/users', userRoutes);
