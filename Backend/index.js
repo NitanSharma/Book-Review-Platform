@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();// Middleware
 
 app.use(cors({
-    origin: 'http://localhost:5173', // your React app
+    origin: 'https://book-review-platform-git-main-nitins-projects-edf87744.vercel.app/', // your React app
     credentials: true // 👈 this allows cookies to be sent
 }));// this is to allow cross origin requests 
 
